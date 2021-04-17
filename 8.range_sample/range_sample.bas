@@ -253,18 +253,21 @@ End Sub
 Sub cells_graphpaper()
 Dim sname As String: sname = "graphpaper"
 Dim rc As Variant: rc = Array(2, 2, 5, 10)
-Dim cm As Variant: cm = 10 'mm unit
+Dim cm As Variant: cm = 5 'mm unit
 Dim a As Double, ratio As Double
 Dim pt As Double, mm As Double, inch As Double
-pt = 1: mm = 25.4: inch = 72: ratio = 0.0685
+pt = 1: mm = 25.4: inch = 72: ratio = 0.0001
 a = (inch / mm) * cm
 Call addsheet(sname)
 With ThisWorkbook
   With .Worksheets(1)
     'cm = Application.CentimetersToPoints(1)
     .Cells.Clear
-    .Cells.ColumnWidth = a * ratio
     .Cells.RowHeight = a
+    Do While ActiveCell.Width <> ActiveCell.Height
+      ratio = ratio + 0.0001
+      .Cells.ColumnWidth = a * ratio
+    Loop
     Debug.Print "ÉZÉãïù " & cm & "mm ä‘äuÇ≈Ç∑"
     a = Round(a)
     With .Range(.Cells(rc(0), rc(1)), .Cells(rc(2), rc(3)))
